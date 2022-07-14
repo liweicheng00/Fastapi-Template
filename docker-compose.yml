@@ -1,21 +1,8 @@
 version: '3.9'
 
 services:
-  nft_udpater:
-    image: o2-meta-nft-updater
-    environment:
-      - RUNTIME_ENV=staging
-      - MONGODB_DB=staging
-      - MONGODB_HOST=mongodb
-      - MONGODB_USER=citizix
-      - MONGODB_PASSWORD=S3cret
-      - MONGODB_CA_CERT=/usr/local/share/ca-certificates/mongodb-cert.crt
-      - O2_REDIS_HOST=cache
-      - O2_REDIS_PORT=
-    volumes:
-        - ./ca-certs:/usr/local/share/ca-certificates
   myapplication:
-    image: o2-meta-backend
+    image: backend
     environment:
       - RUNTIME_ENV=staging
       - MONGODB_DB=staging

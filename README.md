@@ -5,7 +5,8 @@ pip install -r requirements.txt
 ```
 # Local Run
 ```bash
-# Run MongoDB and Docker image
+# Run MongoDB, Redis and Docker image
+docker build -t backend .
 docker-compose up
 
 # Run localhost
