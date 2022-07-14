@@ -1,18 +1,25 @@
-# Setup
+# Template for FastAPI 
+## Integrated with 
+- MongoDB
+- Redis
+- APScheduler 
+
+
+## Setup
 
 ```bash
 pip install -r requirements.txt
 ```
-# Local Run
+## Local Run
 ```bash
-# Run MongoDB, Redis and Docker image
+# Run by docker-compose with MongoDB, Redis and Docker image
 docker build -t backend .
 docker-compose up
 
-# Run localhost
+# Run directly
 python run.py
 ```
-# Test
+## Test
 ```bash
 export RUNTIME_ENV=test
 pytest --cov=app --cov-report term-missing
