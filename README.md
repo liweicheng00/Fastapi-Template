@@ -2,7 +2,7 @@
 
 ### Implement
 
-- Metamask login mechanism
+- Simple Metamask login mechanism
 
 ## Integrated with 
 - MongoDB
