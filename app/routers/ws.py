@@ -3,7 +3,7 @@ import traceback
 from fastapi import WebSocket, WebSocketDisconnect, APIRouter, Request
 from fastapi.responses import HTMLResponse
 from app.models.scheme import WsMessage
-from app.exception_handler import *
+from app.exception import *
 from app.utils.redis import MetadataRedisPool
 from app.config import settings
 from typing import List

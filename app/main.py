@@ -5,17 +5,17 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.events import EVENT_JOB_ERROR
 import datetime
 
-from app.cron_job.background import subgraph_mission
-from app.routers import ws, login, metadata
+from app.backgrounds.background import subgraph_mission
+# from app.routers import ws, login, metadata
 from app.config import settings
-from app.utils.redis import MetadataRedisPool
-from app.setup import init_db
+# from app.utils.redis import MetadataRedisPool
+# from app.setup import init_db
 
 app = FastAPI(docs_url=settings.docs_url, redoc_url=None)
 
-app.include_router(ws.router)
-app.include_router(login.router)
-app.include_router(metadata.router)
+# app.include_router(ws.router)
+# app.include_router(login.router)
+# app.include_router(metadata.router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,8 +31,8 @@ app.add_middleware(
 Schedule = AsyncIOScheduler()
 Schedule.start()
 
-metadata_redis = MetadataRedisPool()
-app.redis = metadata_redis
+# metadata_redis = MetadataRedisPool()
+# app.redis = metadata_redis
 
 
 def listener(arg):
@@ -40,19 +40,19 @@ def listener(arg):
     Schedule.add_job(metadata_redis.subscribe, id='subscribe_redis')
 
 
-@app.on_event("startup")
-async def startup_event():
-    print('startup')
-    init_db()
-    await metadata_redis.init_redis_data()
-    Schedule.add_job(metadata_redis.subscribe, id='subscribe_redis')
-    Schedule.add_listener(listener, mask=EVENT_JOB_ERROR)
-
-
-@app.on_event("shutdown")
-async def startup_event():
-    print('shotdown')
-    Schedule.remove_job("subscribe_redis")
+# @app.on_event("startup")
+# async def startup_event():
+#     print('startup')
+#     # init_db()
+#     await metadata_redis.init_redis_data()
+#     Schedule.add_job(metadata_redis.subscribe, id='subscribe_redis')
+#     Schedule.add_listener(listener, mask=EVENT_JOB_ERROR)
+#
+#
+# @app.on_event("shutdown")
+# async def startup_event():
+#     print('shotdown')
+#     Schedule.remove_job("subscribe_redis")
 
 
 @app.get("/")

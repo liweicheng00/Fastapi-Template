@@ -1,5 +1,5 @@
 import time
-from app.exception_handler import GetOwnerError
+from app.exception import GetOwnerError
 from web3 import Web3
 from web3.exceptions import ContractLogicError
 from app.config import settings

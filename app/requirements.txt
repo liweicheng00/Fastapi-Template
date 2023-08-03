@@ -2,7 +2,7 @@ fastapi==0.75.2
 python-dotenv==0.20.0
 web3==6.0.0b1
 uvicorn[standard]==0.17.6
-pymongo==4.1.1
+# pymongo==4.1.1
 PyJWT==2.3.0
 pytest-cov==3.0.0
 python-multipart==0.0.5
