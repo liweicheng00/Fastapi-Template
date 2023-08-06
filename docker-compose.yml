@@ -1,5 +1,5 @@
 version: '3.9'
-name: "project_name"
+name: "iv"
 services:
   backend-app:
     build:

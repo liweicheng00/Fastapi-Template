@@ -3,6 +3,9 @@ deploy
 .idea
 .DS_Store
 */__pycache__
-env
-
 development/*
+
+#
+env/*
+!env/.env
+!env/.test.env

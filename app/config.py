@@ -2,16 +2,12 @@ import os
 from typing import Optional, Union
 from pydantic import BaseSettings, HttpUrl
 
+from app.utils.config.postgressql import PostgreSettings
 
-class Settings(BaseSettings):
+
+class Settings(BaseSettings, PostgreSettings):
     runtime_env: str = os.getenv('RUNTIME_ENV')
     docs_url: Optional[str] = None
-
-    mongodb_db: str = os.getenv('MONGODB_DB')
-    mongodb_host: str = os.getenv('MONGODB_HOST')
-    mongodb_user: str = os.getenv('MONGODB_USER')
-    mongodb_password: str = os.getenv('MONGODB_PASSWORD')
-    mongodb_ca_cert: str = os.getenv('MONGODB_CA_CERT')
 
     access_token_secret_key: str = os.getenv("ACCESS_TOKEN_SECRET_KEY")
     access_token_expire_minutes: int = 60
@@ -49,8 +45,6 @@ class HotfixStagings(StagingSettings):
 
 
 class TestSettings(StagingSettings):
-    from dotenv import load_dotenv
-    load_dotenv()
     docs_url: Optional[str] = None
     trusted_hosts: list = None
 

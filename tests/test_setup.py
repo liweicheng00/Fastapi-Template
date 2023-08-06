@@ -1,7 +1,9 @@
-from app.setup import *
+import os
 
 
-def test_create_account_collection():
-    col = db.list_collection_names()
-    assert 'account' in col
+def test_check_test_env():
+    assert os.getenv("RUNTIME_ENV") == "test"
 
+
+def test_database_connection():
+    ...
