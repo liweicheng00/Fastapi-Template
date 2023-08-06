@@ -1,7 +1,7 @@
 version: '3.9'
 name: "project_name"
 services:
-  app:
+  backend-app:
     build:
       context: .
     volumes:
