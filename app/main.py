@@ -1,11 +1,10 @@
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.events import EVENT_JOB_ERROR
 import datetime
 
-from app.backgrounds.background import subgraph_mission
 # from app.routers import ws, login, metadata
 from app.config import settings
 # from app.utils.redis import MetadataRedisPool
@@ -37,17 +36,19 @@ Schedule.start()
 
 def listener(arg):
     print(arg)
-    Schedule.add_job(metadata_redis.subscribe, id='subscribe_redis')
+    # Schedule.add_job(metadata_redis.subscribe, id='subscribe_redis')
 
 
-# @app.on_event("startup")
-# async def startup_event():
-#     print('startup')
-#     # init_db()
-#     await metadata_redis.init_redis_data()
-#     Schedule.add_job(metadata_redis.subscribe, id='subscribe_redis')
-#     Schedule.add_listener(listener, mask=EVENT_JOB_ERROR)
-#
+@app.on_event("startup")
+async def startup_event():
+    print('startup')
+    from app.databases import engine
+    assert engine.connect()
+    # init_db()
+    # await metadata_redis.init_redis_data()
+    # Schedule.add_job(metadata_redis.subscribe, id='subscribe_redis')
+    # Schedule.add_listener(listener, mask=EVENT_JOB_ERROR)
+
 #
 # @app.on_event("shutdown")
 # async def startup_event():
@@ -65,12 +66,8 @@ def ping():
     return "is ok"
 
 
-@app.get('/background')
-def do_background(background_tasks: BackgroundTasks):
-    background_tasks.add_task(subgraph_mission)
-    return 'Do background job once.'
+# @app.get('/background')
+# def do_background(background_tasks: BackgroundTasks):
+#     background_tasks.add_task(subgraph_mission)
+#     return 'Do background job once.'
 
-
-@app.get("/time")
-def get_server_time():
-    return datetime.datetime.now().timestamp()

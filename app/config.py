@@ -5,76 +5,29 @@ from pydantic import BaseSettings, HttpUrl
 from app.utils.config.postgressql import PostgreSettings
 
 
-class Settings(BaseSettings, PostgreSettings):
+class Settings(PostgreSettings, BaseSettings):
     runtime_env: str = os.getenv('RUNTIME_ENV')
     docs_url: Optional[str] = None
+    trusted_hosts: list
+    origins: list = []
 
-    access_token_secret_key: str = os.getenv("ACCESS_TOKEN_SECRET_KEY")
-    access_token_expire_minutes: int = 60
-    audience: str = "http://localhost"
-    issuer: str = "http://localhost"
-
-    frontend_domain: HttpUrl = "https://o2meta.io"
+    frontend_domain: Optional[HttpUrl]
 
     slack_notification_webhook: str = ""
-
-    o2_redis_host: str = os.getenv('O2_REDIS_HOST')
-    o2_redis_port: Union[int, str] = os.getenv('O2_REDIS_PORT') or ""
-
-    db_index: int = 0
-
-
-class StagingSettings(Settings):
-    docs_url: Optional[str] = '/docs'
-    trusted_hosts: list = None
-    origins: list = []
-
-    contract_address: str = ""
-    web3_url: str = "https://eth-rinkeby.alchemyapi.io/v2/"
-    alchemy_token_key: str = ""
-    graph_url: str = ""
-
-
-class DemoSettings(StagingSettings):
-    db_index: int = 3
-    ...
-
-
-class HotfixStagings(StagingSettings):
-    db_index: int = 6
-
-
-class TestSettings(StagingSettings):
-    docs_url: Optional[str] = None
-    trusted_hosts: list = None
-
-
-class ProdSettings(Settings):
-    origins: list = []
-    trusted_hosts: list = []
-    contract_address: str = ""
-    web3_url: str = "https://eth-mainnet.alchemyapi.io/v2/"
-    alchemy_token_key: str = ""
-    graph_url: str = ""
-
-
-class RcSettings(ProdSettings):
-    db_index: int = 3
 
 
 RUNTIME_ENV = os.getenv('RUNTIME_ENV')
 if RUNTIME_ENV == 'production':
-    settings = ProdSettings()
+    settings = Settings()
 elif RUNTIME_ENV == 'rc':
-    settings = RcSettings()
-elif RUNTIME_ENV == 'staging':
-    settings = StagingSettings()
-elif RUNTIME_ENV == 'demo':
-    settings = DemoSettings()
+    settings = Settings()
 elif RUNTIME_ENV == 'hotfix':
-    settings = HotfixStagings()
+    settings = Settings()
+elif RUNTIME_ENV == 'demo':
+    settings = Settings()
 elif RUNTIME_ENV == 'test':
-    settings = TestSettings()
-    settings.mongodb_db = 'test'
+    settings = Settings()
 else:
-    settings = StagingSettings()
+    settings = Settings(
+        trusted_hosts=["localhost:8000", "localhost"]
+    )

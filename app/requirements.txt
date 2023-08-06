@@ -9,5 +9,7 @@ bleach==5.0.0
 
 # Database
 SQLAlchemy==2.0.19
+psycopg2-binary==2.9.7
+
 # pymongo==4.1.1
 

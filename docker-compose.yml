@@ -1,5 +1,5 @@
 version: '3.9'
-name: "iv"
+name: "project-name"
 services:
   backend-app:
     build:
@@ -8,6 +8,8 @@ services:
       - ./app:/code/app
     env_file:
       - env/.env
+    environment:
+      - POSTGRES_URL=postgresql:5432  # Override .env files
     ports:
       - "8000:80"
   postgresql:
