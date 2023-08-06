@@ -8,4 +8,5 @@ README-secret.md
 
 ca-certs
 env
-development
+
+development/*
